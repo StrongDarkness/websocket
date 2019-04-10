@@ -1,22 +1,18 @@
 package cn.qxl.Controller;
 
-import cn.qxl.Bean.User;
+import cn.qxl.Bean.UserInfo;
 import cn.qxl.Chat.MyWebSocket;
 import cn.qxl.Service.UserService;
-import cn.qxl.Utils.JwtUtil;
+import cn.qxl.shiro.jwt.JwtUtil;
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.ShiroException;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,11 +34,11 @@ public class ApiController {
     @PostMapping("/login")
     @ResponseBody
     public String login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) {
-        User user = userService.getUser(username);
+        UserInfo user = userService.getUserByUserName(username);
         if (user.getPassword().equals(password)) {
             Map<String, Object> result = new HashMap<>();
             result.put("result", "login success");
-            String token = JwtUtil.sign(username, password);
+            String token = JwtUtil.sign(username, password,user.getUserId());
             result.put("token", token);
             return JSON.toJSONString(result);
         } else {

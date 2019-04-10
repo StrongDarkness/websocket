@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.qxl.Mapper.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.qxl.Bean.UserInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="pay_password" jdbcType="VARCHAR" property="payPassword" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="head_img" jdbcType="VARCHAR" property="headImg" />
+    <result column="phone" jdbcType="CHAR" property="phone" />
+    <result column="phone_id" jdbcType="VARCHAR" property="phoneId" />
+    <result column="id_card_no" jdbcType="VARCHAR" property="idCardNo" />
+    <result column="real_name_state" jdbcType="CHAR" property="realNameState" />
+    <result column="roles" jdbcType="VARCHAR" property="roles" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_in_use" jdbcType="CHAR" property="isInUse" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, user_name, password, pay_password, nick_name, head_img, phone, phone_id, 
+    id_card_no, real_name_state, roles, create_user, update_user, create_time, update_time, 
+    is_in_use
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_user_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.qxl.Bean.UserInfo" useGeneratedKeys="true">
+    insert into t_user_info (user_id, user_name, password, 
+      pay_password, nick_name, head_img, 
+      phone, phone_id, id_card_no, 
+      real_name_state, roles, create_user, 
+      update_user, create_time, update_time, 
+      is_in_use)
+    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{payPassword,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{headImg,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=CHAR}, #{phoneId,jdbcType=VARCHAR}, #{idCardNo,jdbcType=VARCHAR}, 
+      #{realNameState,jdbcType=CHAR}, #{roles,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isInUse,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.qxl.Bean.UserInfo" useGeneratedKeys="true">
+    insert into t_user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="payPassword != null">
+        pay_password,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="headImg != null">
+        head_img,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="phoneId != null">
+        phone_id,
+      </if>
+      <if test="idCardNo != null">
+        id_card_no,
+      </if>
+      <if test="realNameState != null">
+        real_name_state,
+      </if>
+      <if test="roles != null">
+        roles,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isInUse != null">
+        is_in_use,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="payPassword != null">
+        #{payPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="headImg != null">
+        #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=CHAR},
+      </if>
+      <if test="phoneId != null">
+        #{phoneId,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardNo != null">
+        #{idCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="realNameState != null">
+        #{realNameState,jdbcType=CHAR},
+      </if>
+      <if test="roles != null">
+        #{roles,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isInUse != null">
+        #{isInUse,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.qxl.Bean.UserInfo">
+    update t_user_info
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="payPassword != null">
+        pay_password = #{payPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="headImg != null">
+        head_img = #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=CHAR},
+      </if>
+      <if test="phoneId != null">
+        phone_id = #{phoneId,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardNo != null">
+        id_card_no = #{idCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="realNameState != null">
+        real_name_state = #{realNameState,jdbcType=CHAR},
+      </if>
+      <if test="roles != null">
+        roles = #{roles,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isInUse != null">
+        is_in_use = #{isInUse,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.qxl.Bean.UserInfo">
+    update t_user_info
+    set user_id = #{userId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      pay_password = #{payPassword,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      head_img = #{headImg,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=CHAR},
+      phone_id = #{phoneId,jdbcType=VARCHAR},
+      id_card_no = #{idCardNo,jdbcType=VARCHAR},
+      real_name_state = #{realNameState,jdbcType=CHAR},
+      roles = #{roles,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_in_use = #{isInUse,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="getAllUserInfo" parameterType="cn.qxl.Bean.UserInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_user_info
+        <where>
+            1=1
+            <if test="userId != null and userId!=''">
+                and user_id = #{userId,jdbcType=BIGINT}
+            </if>
+            <if test="userName != null and userName!=''">
+                and user_name = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="password != null and password!=''">
+                and password = #{password,jdbcType=VARCHAR}
+            </if>
+            <if test="payPassword != null and password!=''">
+                and pay_password = #{payPassword,jdbcType=VARCHAR}
+            </if>
+            <if test="nickName != null and nickName!=''">
+                and nick_name like '%${nickName}%'
+            </if>
+            <if test="headImg != null and headImg !=''">
+                and head_img = #{headImg,jdbcType=VARCHAR}
+            </if>
+            <if test="phone != null and phone!=''">
+                and phone = #{phone,jdbcType=CHAR}
+            </if>
+            <if test="idCardNo != null and idCardNo!=''">
+                ID_card_no = #{idCardNo,jdbcType=VARCHAR}
+            </if>
+            <if test="realNameState != null and realNameState!=''">
+                and real_name_state = #{realNameState,jdbcType=CHAR}
+            </if>
+            <if test="roles != null and roles!=''">
+                and roles = #{roles,jdbcType=VARCHAR}
+            </if>
+            <if test="createUser != null and createUser !=''">
+                and create_user = #{createUser,jdbcType=VARCHAR}
+            </if>
+            <if test="updateUser != null and updateUser">
+                and update_user = #{updateUser,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null and updateTime!=''">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createTime != null and createTime !=''">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="isInUse != null and isInUse !=''">
+                and is_in_use = #{isInUse,jdbcType=CHAR}
+            </if>
+            <if test="phoneId != null and phoneId !=''">
+                and phone_id = #{phoneId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    <select id="getUserByUserName" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_user_info
+        where
+        user_name=#{username,jdbcType=VARCHAR}
+    </select>
+    <select id="getUserById" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_user_info
+        where
+        id=#{userId,jdbcType=BIGINT}
+    </select>
+</mapper>

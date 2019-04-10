@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.qxl.Mapper.AdminUserMapper">
+  <resultMap id="BaseResultMap" type="cn.qxl.Bean.AdminUser">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="admin_name" jdbcType="VARCHAR" property="adminName" />
+    <result column="admin_password" jdbcType="VARCHAR" property="adminPassword" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="login_flag" jdbcType="INTEGER" property="loginFlag" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_in_use" jdbcType="CHAR" property="isInUse" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, admin_name, admin_password, role_id, email, phone_num, login_flag, create_user, 
+    update_user, create_time, update_time, is_in_use
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_admin_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_admin_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.qxl.Bean.AdminUser" useGeneratedKeys="true">
+    insert into t_admin_user (admin_name, admin_password, role_id, 
+      email, phone_num, login_flag, 
+      create_user, update_user, create_time, 
+      update_time, is_in_use)
+    values (#{adminName,jdbcType=VARCHAR}, #{adminPassword,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, #{loginFlag,jdbcType=INTEGER}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isInUse,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.qxl.Bean.AdminUser" useGeneratedKeys="true">
+    insert into t_admin_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminName != null">
+        admin_name,
+      </if>
+      <if test="adminPassword != null">
+        admin_password,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="phoneNum != null">
+        phone_num,
+      </if>
+      <if test="loginFlag != null">
+        login_flag,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isInUse != null">
+        is_in_use,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminName != null">
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        #{adminPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null">
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="loginFlag != null">
+        #{loginFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isInUse != null">
+        #{isInUse,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.qxl.Bean.AdminUser">
+    update t_admin_user
+    <set>
+      <if test="adminName != null">
+        admin_name = #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        admin_password = #{adminPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null">
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="loginFlag != null">
+        login_flag = #{loginFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isInUse != null">
+        is_in_use = #{isInUse,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.qxl.Bean.AdminUser">
+    update t_admin_user
+    set admin_name = #{adminName,jdbcType=VARCHAR},
+      admin_password = #{adminPassword,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      phone_num = #{phoneNum,jdbcType=VARCHAR},
+      login_flag = #{loginFlag,jdbcType=INTEGER},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_in_use = #{isInUse,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="getAdminUser" parameterType="cn.qxl.Bean.AdminUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_admin_user
+        <where>
+            1=1
+            <if test="id!=null and id!=''">
+                and id=#{id,jdbcType=INTEGER}
+            </if>
+            <if test="adminName != null and adminName!=''">
+                and admin_name = #{adminName,jdbcType=VARCHAR},
+            </if>
+            <if test="adminPassword != null and adminPassword!=''">
+                and admin_password = #{adminPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null and roleId!=''">
+                and role_id = #{roleId,jdbcType=INTEGER},
+            </if>
+            <if test="permissionId != null and permissionId!=''">
+                and permission_id = #{permissionId,jdbcType=INTEGER},
+            </if>
+            <if test="email != null and email!=''">
+                and email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNum != null and phoneNum!=''">
+                and phone_num = #{phoneNum,jdbcType=VARCHAR},
+            </if>
+            <if test="loginFlag != null and loginFlag!=''">
+                and login_flag = #{loginFlag,jdbcType=INTEGER},
+            </if>
+            <if test="createUser != null and createUser!=''">
+                and create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null and updateUser!=''">
+                and update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null and updateTime!=''">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null and createTime!=''">
+                and create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isInUse != null and isInUse!=''">
+                and is_in_use = #{isInUse,jdbcType=CHAR},
+            </if>
+        </where>
+    </select>
+    <select id="getAdminUserByUserName" parameterType="cn.qxl.Bean.AdminUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_admin_user
+        where
+        admin_name = #{adminName,jdbcType=VARCHAR}
+    </select>
+</mapper>

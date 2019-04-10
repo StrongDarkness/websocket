@@ -1,35 +1,28 @@
 package cn.qxl.Controller;
 
 import cn.qxl.Bean.Token;
-import cn.qxl.Bean.User;
+import cn.qxl.Bean.UserInfo;
 import cn.qxl.Chat.MyWebSocket;
 import cn.qxl.Service.UserService;
-import cn.qxl.Utils.JwtUtil;
 import cn.qxl.Utils.LogUtils;
+import cn.qxl.shiro.jwt.JwtUtil;
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.ShiroException;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.authz.UnauthenticatedException;
-import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.ejb.Local;
-import javax.resource.spi.AuthenticationMechanism;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by qiu on 2018/10/13.
@@ -80,8 +73,9 @@ public class ViewController {
     @RequestMapping("/login")
     public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
         Subject user = SecurityUtils.getSubject();
+        UserInfo ui = userService.getUserByUserName(username);
         // AuthenticationToken token=new UsernamePasswordToken(username,password);
-        Token tk = new Token(JwtUtil.sign(username, password));
+        Token tk = new Token(JwtUtil.sign(username, password,ui.getUserId()));
         try {
             user.login(tk);
             return "index";

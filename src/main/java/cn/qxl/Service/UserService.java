@@ -1,22 +1,31 @@
 package cn.qxl.Service;
 
-import cn.qxl.Bean.User;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import cn.qxl.Bean.UserInfo;
+
+import java.util.List;
 
 /**
- * Created by qiu on 2018/10/29.
+ * 用户信息
+ * Created by qiu on 2019/1/11.
  */
-@Component
-@Service
-public class UserService {
+public interface UserService {
+    int deleteUserInfoById(Long id);
 
-    public User getUser(String username){
-        User u=new User();
-        u.setUsername("user");
-        u.setPassword("123456");
-        u.setPermission("add,delete,view");
-        u.setRole("user");
-        return u;
-    }
+    int saveUserInfo(UserInfo record);
+
+    int saveUserInfoSelective(UserInfo record);
+
+    UserInfo selectUserInfoById(Long id);
+
+    int updateUserInfoSelective(UserInfo record);
+
+    int updateUserInfo(UserInfo record);
+
+    List<UserInfo> getAllUser(UserInfo ui);
+
+    UserInfo getUserByUserName(String username);
+    //根据user_id查询用户
+    UserInfo getUserById(String userId);
+
+    boolean register(UserInfo info) throws Exception;
 }

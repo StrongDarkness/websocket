@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!--避免生成重复代码的插件-->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <plugin type="com.mchb.util.OverIsMergeablePlugin"/>
+
+        <!--是否在代码中显示注释-->
+        <commentGenerator type="com.mchb.util.MyCommentGenerator">
+        </commentGenerator>
+
+        <!--数据库链接地址账号密码-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.101.29:3306/mchb"
+                        userId="root" password="mysql">
+        </jdbcConnection>
+        <!--不知道做什么用的。。。反正贴上来了~-->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--生成pojo类存放位置      这里需要根据你负责的模块的具体包路径修改 -->
+        <javaModelGenerator targetPackage="com.mchb.manager.model" targetProject="src/main/java">
+            <property name="constructorBased" value="false"/>
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--生成xml映射文件存放位置       这里需要根据你负责的模块的具体包路径修改-->
+        <sqlMapGenerator targetPackage="mybatis/mapper/managerMapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!--生成mapper类存放位置        这里需要根据你负责的模块的具体包路径修改-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.mchb.manager.mapper" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!--生成对应表及类名-->
+        <table tableName="" domainObjectName="" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!--使用自增长键-->
+            <property name="my.isgen.usekeys" value="true"/>
+            <property name="useActualColumnNames" value="false"/>
+            <!--generatedKey  选择改表的主键   column后面跟的是改变主键的列名  并不是所有表的主键都是id  一定要注意选择-->
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+
+
+
+    </context>
+</generatorConfiguration>

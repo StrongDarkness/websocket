@@ -1,4 +1,4 @@
-package cn.qxl.Utils;
+package cn.qxl.shiro.jwt;
 
 
 import com.auth0.jwt.JWT;
@@ -24,10 +24,11 @@ public class JwtUtil {
      * @param password
      * @return
      */
-    public static boolean verify(String token, String username, String password) {
+    public static boolean verify(String token, String username, String password, String userId) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(password);
-            JWTVerifier verifier = JWT.require(algorithm).withClaim("username", username).build();
+            Algorithm algorithm = Algorithm.HMAC256(password);//密码加密
+            JWTVerifier verifier = JWT.require(algorithm).withClaim("username", username)
+                    .withClaim("userId", userId).build();
             DecodedJWT jwt = verifier.verify(token);
             return true;
         } catch (Exception e) {
@@ -52,6 +53,22 @@ public class JwtUtil {
         }
     }
 
+
+    /**
+     * 获取解密后的用户id
+     *
+     * @param token
+     * @return
+     */
+    public static String getUserId(String token) {
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            return jwt.getClaim("userId").asString();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     /**
      * 生成签名
      *
@@ -59,11 +76,13 @@ public class JwtUtil {
      * @param password
      * @return
      */
-    public static String sign(String username, String password) {
+    public static String sign(String username, String password, String userId) {
         Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
         try {
-            Algorithm algorithm = Algorithm.HMAC256(password);
-            return JWT.create().withClaim("username", username).withExpiresAt(date).sign(algorithm);
+            Algorithm algorithm = Algorithm.HMAC256(password);//密码加密
+            return JWT.create().withClaim("username", username)
+                    .withClaim("userId", userId)
+                    .withExpiresAt(date).sign(algorithm);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return null;

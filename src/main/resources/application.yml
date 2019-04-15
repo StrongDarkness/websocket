@@ -2,6 +2,12 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
+      default:  #数据源1
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.101.110:3306/ssm?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+        username: test
+        password: 123456
       first:  #数据源1
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver

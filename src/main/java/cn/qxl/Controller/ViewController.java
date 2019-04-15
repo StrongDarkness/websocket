@@ -1,5 +1,6 @@
 package cn.qxl.Controller;
 
+import cn.qxl.Bean.R;
 import cn.qxl.Bean.Token;
 import cn.qxl.Bean.UserInfo;
 import cn.qxl.Chat.MyWebSocket;
@@ -22,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -114,6 +116,14 @@ public class ViewController {
     @ExceptionHandler(Exception.class)
     public String unauth(Exception e){
         return JSON.toJSONString(e.getMessage());
+    }
+
+
+    @RequestMapping("response401")
+    @ResponseBody
+    public R response401(String msg) {
+//        System.out.println(msg);
+        return R.error(401, msg);
     }
 
 }

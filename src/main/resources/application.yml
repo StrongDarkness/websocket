@@ -2,7 +2,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      default:  #数据源1
+      default:  #默认数据源
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver
         url: jdbc:mysql://192.168.101.110:3306/ssm?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
@@ -52,14 +52,16 @@ spring:
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
 
-
+  resources:
+    static-locations: classpath:/static/  #在这里表示配置静态资源根路径
   mvc:
     view:
       #采用jsp模板引擎
-      prefix: /WEB-INF/jsp/
-      #prefix: /
-      suffix: .jsp
-    static-path-pattern: /static/**
+      #prefix: /WEB-INF/jsp/
+      prefix: classpath:/templates/
+      #suffix: .jsp
+      suffix: .html
+    static-path-pattern: /**   #/**表示所有的访问都经过静态资源路径
   servlet:
     multipart:
       max-file-size: 10Mb
@@ -73,8 +75,8 @@ spring:
     mode: LEGACYHTML5
     encoding: UTF-8
     #网页路径
-    prefix:
-      classpath: /templates/
+    prefix: classpath:/templates/   #在这里作为前缀，表示被thymeleaf修饰的页面在这里作为根目录
+    suffix: .html  # 在这里表示以.html作为后缀
   #ehcache 多个用逗号分开
   cache:
     type: ehcache
@@ -129,7 +131,7 @@ aliyun:
 #logging:
 #  level:
     #定义需要打印SQL语句的包
-   # com.mchb.mapper: debug
+   # cn.qxl.Mapper: debug
 
 
 

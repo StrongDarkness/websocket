@@ -43,8 +43,8 @@ public class ViewController {
     }
 
     @RequestMapping("/")
-    public String loginpage() {
-        return "login";
+    public ModelAndView loginpage() {
+        return new ModelAndView("login");
     }
 
     @RequestMapping("/index")
@@ -72,7 +72,7 @@ public class ViewController {
         return "index";
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/adminlogin")
     public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
         Subject user = SecurityUtils.getSubject();
         UserInfo ui = userService.getUserByUserName(username);

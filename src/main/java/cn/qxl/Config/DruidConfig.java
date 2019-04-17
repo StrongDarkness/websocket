@@ -3,6 +3,7 @@ package cn.qxl.Config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import org.springframework.aop.support.JdkRegexpMethodPointcut;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -34,7 +35,7 @@ public class DruidConfig {
         initParams.put("loginUsername","admin");
         initParams.put("loginPassword","123456");
         initParams.put("allow","");//默认就是允许所有访问
-        initParams.put("deny","192.168.101.110");
+        initParams.put("deny","192.168.101.123");//黑名单
         bean.setInitParameters(initParams);
         return bean;
     }
@@ -51,4 +52,14 @@ public class DruidConfig {
         bean.setUrlPatterns(Arrays.asList("/*"));
         return  bean;
     }
+
+
+    @Bean
+    public JdkRegexpMethodPointcut springFilter(){
+        JdkRegexpMethodPointcut jdk=new JdkRegexpMethodPointcut();
+        jdk.setExcludedPattern("cn.qxl.Mapper.*");
+        jdk.setExcludedPattern("cn.qxl.service.*");
+        return jdk;
+    }
+
 }

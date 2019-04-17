@@ -8,6 +8,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -29,11 +30,11 @@ import java.util.Set;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("cn.qxl")
 public class MvcConfig implements WebMvcConfigurer {
 
     public final static String MARKETING = "/marketing/";
     public final static String MARKETINGDIR = "file:F:/marketing/";
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -44,8 +45,8 @@ public class MvcConfig implements WebMvcConfigurer {
          * 如果是/xxxx/** 引用静态资源 加不加/xxxx/ 均可，因为系统默认配置（/**）也会作用
          * 如果是/** 会覆盖默认配置，应用addResourceLocations添加所有会用到的静态资源地址，系统默认不会再起作用
          */
-
-        registry.addResourceHandler("/**")
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/templates/");
+        registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/META-INF/resources/")
                 .addResourceLocations("classpath:/resources/")
                 .addResourceLocations("classpath:/static/")
@@ -56,9 +57,10 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/")
                 .addResourceLocations("classpath:/public/");
 
-        registry.addResourceHandler("/upload/tea_images/**").addResourceLocations("file:D:\\workspace\\1126\\mc_daily\\src\\main\\resources\\static\\upload\\tea_images\\");
+        registry.addResourceHandler("/upload/images/**").addResourceLocations("file:D:\\upload\\images\\");
 
         registry.addResourceHandler(MARKETING + "**").addResourceLocations(MARKETINGDIR);
+
     }
 
     @Override
@@ -70,9 +72,12 @@ public class MvcConfig implements WebMvcConfigurer {
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/");
-        resolver.setSuffix(".jsp");
-        resolver.setViewNames("jsp/*");
+        resolver.setPrefix("classpath:/templates/");
+//        resolver.setPrefix("/WEB-INF/");//web-inf配置jsp
+        resolver.setSuffix(".html");
+//        resolver.setSuffix(".jsp");
+        resolver.setViewNames("/*");
+//        resolver.setViewNames("/jsp/*");
         resolver.setOrder(2);
         return resolver;
     }
@@ -81,7 +86,7 @@ public class MvcConfig implements WebMvcConfigurer {
     public ITemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setTemplateMode("HTML5");
-        templateResolver.setPrefix("/WEB-INF/");
+        templateResolver.setPrefix("classpath:/templates/");//注意，要加classpath，否则无法读取html
         templateResolver.setSuffix(".html");
         templateResolver.setCharacterEncoding("utf-8");
         templateResolver.setCacheable(false);

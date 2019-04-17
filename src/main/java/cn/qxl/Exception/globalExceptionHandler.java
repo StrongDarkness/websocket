@@ -23,6 +23,7 @@ public class globalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public String gexception(Exception e) {
+        System.out.println(e.getMessage());
         return JSON.toJSONString(e.getMessage());
     }
 }

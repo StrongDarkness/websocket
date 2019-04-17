@@ -69,7 +69,7 @@ public class ApiController {
     @ResponseBody
     @GetMapping("/sendMsg")
     public String sendMsg(String msg) {
-        webSocket.sendToAll(msg);
+        webSocket.sendToAll("系统管理员",msg);
         return "发送成功";
     }
 

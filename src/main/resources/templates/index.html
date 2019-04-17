@@ -8,7 +8,7 @@
 </head>
 
 <body>
-Welcome<span th:text="${nickname}"></span>登录！<br/>
+Welcome <span th:text="${nickname}" style="color:blue"></span> 登录！<br/>
 <input id="username" type="text" th:value="${username}" hidden/><button onclick="connect()" hidden>connect</button><br/>
 To:<input id="to" placeholder="towho" type="text" /><br/>
 <input id="text" type="text" /><button onclick="send()">Send</button>    <button onclick="closeWebSocket()">Close</button>

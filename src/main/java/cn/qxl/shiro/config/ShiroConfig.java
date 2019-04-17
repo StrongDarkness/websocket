@@ -20,6 +20,7 @@ import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
@@ -29,6 +30,7 @@ import java.util.*;
 /**
  * Created by qiu on 2018/10/29.
  */
+@ComponentScan
 @Configuration
 public class ShiroConfig {
 

@@ -86,7 +86,7 @@ public class ShiroConfig {
         bean.setFilters(filterMap);
 //        bean.setSecurityManager(manager);
         bean.setSecurityManager(getManager());
-        bean.setUnauthorizedUrl("/");
+        bean.setUnauthorizedUrl("/401");
         bean.setLoginUrl("/");
         bean.setSuccessUrl("/index");//登录成功的返回
         /*
@@ -97,9 +97,10 @@ public class ShiroConfig {
         // 所有请求通过我们自己的JWT Filter
         filterRuleMap.put("/User/login", "anon");
         filterRuleMap.put("/User/register", "anon");
-        filterRuleMap.put("/admin/login", "anon");
+        filterRuleMap.put("/adminlogin", "anon");
         filterRuleMap.put("/admin/getCodeImg", "anon");
         filterRuleMap.put("/login", "anon");
+        filterRuleMap.put("/websocket/**", "anon");//websocket路径
         filterRuleMap.put("/*.ico", "anon");
         filterRuleMap.put("/admin/loginOut", "anon");
         filterRuleMap.put("/admin/formLogin", "anon");
@@ -121,7 +122,7 @@ public class ShiroConfig {
         filterRuleMap.put("/upload/**", "anon");
         filterRuleMap.put("/WEB-INF/**", "anon");
         filterRuleMap.put("/api/**", "jwt");//api下用户jwt拦截
-//        filterRuleMap.put("/**", "authc");//默认拦截所有url
+        filterRuleMap.put("/**", "authc");//默认拦截所有url
         bean.setFilterChainDefinitionMap(filterRuleMap);
 
         return bean;

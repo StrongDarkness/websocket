@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>My WebSocket</title>
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
@@ -8,8 +8,8 @@
 </head>
 
 <body>
-Welcome<br/>
-<input id="username" type="text" /><button onclick="connect()">connect</button><br/>
+Welcome<span th:text="${nickname}"></span>登录！<br/>
+<input id="username" type="text" th:value="${username}" hidden/><button onclick="connect()" hidden>connect</button><br/>
 To:<input id="to" placeholder="towho" type="text" /><br/>
 <input id="text" type="text" /><button onclick="send()">Send</button>    <button onclick="closeWebSocket()">Close</button>
 <div id="message">
@@ -18,7 +18,10 @@ To:<input id="to" placeholder="towho" type="text" /><br/>
 
 <script type="text/javascript">
     var websocket = null;
-    var domain="ws://localhost:8081/websocket/";
+    var domain="ws://"+window.location.host+"/websocket/";
+    $(function () {
+        connect();
+    });
     //判断当前浏览器是否支持WebSocket
     function  connect() {
         var username=$('#username').val();

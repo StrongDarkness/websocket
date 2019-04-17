@@ -75,19 +75,29 @@ public class ViewController {
     @RequestMapping("/adminlogin")
     public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
         Subject user = SecurityUtils.getSubject();
-        UserInfo ui = userService.getUserByUserName(username);
-        // AuthenticationToken token=new UsernamePasswordToken(username,password);
-        Token tk = new Token(JwtUtil.sign(username, password,ui.getUserId()));
         try {
+            UserInfo ui = userService.getUserByUserName(username);
+            if (ui==null){
+                model.addAttribute("msg","用户不存在");
+                return "login";
+            }
+            // AuthenticationToken token=new UsernamePasswordToken(username,password);
+            Token tk = new Token(JwtUtil.sign(username, password,ui.getUserId()));
             user.login(tk);
+            model.addAttribute("username",username);
+            model.addAttribute("nickname",ui.getNickName());
             return "index";
         }catch (UnknownAccountException e){
             LogUtils.getLogger(getClass()).info(e.getMessage());
             System.out.println(e.getMessage());
             model.addAttribute("msg", e.getMessage());
         } catch (AuthenticationException e) {
+            System.out.println(e.getMessage());
             LogUtils.getLogger(getClass()).info(e.getMessage());
             model.addAttribute("msg", e.getMessage());
+        }catch (Exception e){
+            System.out.println(e);
+            model.addAttribute("msg","未知异常："+e.getMessage());
         }
         return "login";
     }

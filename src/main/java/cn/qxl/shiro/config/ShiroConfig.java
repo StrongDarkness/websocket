@@ -124,7 +124,7 @@ public class ShiroConfig {
         filterRuleMap.put("/upload/**", "anon");
         filterRuleMap.put("/WEB-INF/**", "anon");
         filterRuleMap.put("/api/**", "jwt");//api下用户jwt拦截
-        filterRuleMap.put("/**", "authc");//默认拦截所有url
+//        filterRuleMap.put("/**", "authc");//默认拦截所有url
         bean.setFilterChainDefinitionMap(filterRuleMap);
 
         return bean;

@@ -2,9 +2,11 @@ package cn.qxl.Exception;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.authc.AuthenticationException;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 
 /**
@@ -21,9 +23,8 @@ public class globalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public String gexception(Exception e) {
-        System.out.println(e.getMessage());
-        return JSON.toJSONString(e.getMessage());
+    public ModelAndView globalException(Exception e) {
+        System.out.println("错误信息:"+e.getMessage());
+        return new ModelAndView("401","msg",e);
     }
 }

@@ -17,7 +17,11 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
+import org.redisson.Redisson;
+import org.redisson.api.RLock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +29,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by qiu on 2018/10/13.
@@ -37,10 +45,20 @@ public class ViewController {
 
     private UserService userService;
 
+    private static String commodityCount = "commodityCount";//商品key
+    private static String lockKey = "testRedisson";//分布式锁的key
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
+
+    @Autowired
+    RedisTemplate redisTemplate;
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    Redisson redisson;
 
     @RequestMapping("/")
     public ModelAndView loginpage() {
@@ -135,5 +153,45 @@ public class ViewController {
 //        System.out.println(msg);
         return R.error(401, msg);
     }
+    @RequestMapping("/test")
+    @ResponseBody
+    public String test() throws Exception {
+        //设置一个key，aaa商品的库存数量为100
+        stringRedisTemplate.opsForValue().set(commodityCount,"5");
+//        Assert.assertEquals("100", stringRedisTemplate.opsForValue().get("aaa"));
+        return "success";
+    }
 
+
+    /**
+     * 模拟秒杀抢购，并发200个请求过来，查看是否出现超卖
+     * @return
+     */
+    @RequestMapping("/spike")
+    @ResponseBody
+    public String spike() throws Exception{
+        String flag = "success";
+        RLock lock = redisson.getLock(lockKey);
+        try{
+            //lock.lockAsync(5 , TimeUnit.SECONDS);
+            //lock.lock(5, TimeUnit.SECONDS); //设置60秒自动释放锁  （默认是30秒自动过期）
+            Future<Boolean> res = lock.tryLockAsync(100, 5, TimeUnit.SECONDS);
+            boolean result = res.get();
+            if(result){
+                int stock = Integer.parseInt(redisTemplate.opsForValue().get(commodityCount).toString());
+                System.out.println("stock-->"+stock);
+                if(stock > 0){
+                    redisTemplate.opsForValue().set(commodityCount,(stock-1)+"");
+                }else{
+                    flag = "fail";
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally{
+            lock.unlock(); //释放锁
+        }
+        System.out.println(Thread.currentThread().getName()+"-result:" + flag);
+        return flag;
+    }
 }

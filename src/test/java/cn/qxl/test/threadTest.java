@@ -3,6 +3,7 @@ package cn.qxl.test;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -39,7 +40,7 @@ public class threadTest {
                     add();
                     //释放许可
                     semaphore.release();
-                   client.newCall(new Request.Builder().url("http://192.168.101.110:8080/spike").get().build()).execute();
+                Response response= client.newCall(new Request.Builder().url("http://192.168.101.110:8080/spike").get().build()).execute();
 
                 } catch (Exception e) {
                     //log.error("exception", e);
@@ -51,6 +52,7 @@ public class threadTest {
         }
         countDownLatch.await();//线程阻塞，直到闭锁值为0时，阻塞才释放，继续往下执行
         executorService.shutdown();
+        System.out.println("count:"+count);
         log.info("count:{}", count);
     }
     private static void add() {

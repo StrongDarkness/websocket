@@ -1,6 +1,6 @@
 package cn.qxl.aspect;
 
-import cn.qxl.Utils.DynamicDataSource;
+import cn.qxl.utils.DynamicDataSource;
 import cn.qxl.annotation.DataSource;
 import cn.qxl.constants.DataSourceNames;
 import org.aspectj.lang.ProceedingJoinPoint;

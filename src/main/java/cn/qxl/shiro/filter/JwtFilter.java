@@ -1,6 +1,6 @@
 package cn.qxl.shiro.filter;
 
-import cn.qxl.Bean.Token;
+import cn.qxl.bean.Token;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;

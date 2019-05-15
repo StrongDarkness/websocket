@@ -1,9 +1,9 @@
 package cn.qxl.shiro.realm;
 
-import cn.qxl.Bean.Token;
-import cn.qxl.Bean.UserInfo;
-import cn.qxl.Service.UserService;
-import cn.qxl.Utils.EhcacheUtil;
+import cn.qxl.bean.Token;
+import cn.qxl.bean.UserInfo;
+import cn.qxl.service.UserService;
+import cn.qxl.utils.EhcacheUtil;
 import cn.qxl.shiro.jwt.JwtUtil;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;

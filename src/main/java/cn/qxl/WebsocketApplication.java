@@ -13,7 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication
-@MapperScan(basePackages = {"cn.qxl.Mapper"})
+@MapperScan(basePackages = {"cn.qxl.mapper"})
 @EnableCaching
 @EnableConfigurationProperties
 @PropertySource("application.yml")

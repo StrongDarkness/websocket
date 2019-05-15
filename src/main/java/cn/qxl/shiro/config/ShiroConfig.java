@@ -96,7 +96,7 @@ public class ShiroConfig {
          * http://shiro.apache.org/web.html#urls-
          */
         Map<String, String> filterRuleMap = new LinkedHashMap<>();
-        // 所有请求通过我们自己的JWT Filter
+        // 所有请求通过我们自己的JWT filter
         filterRuleMap.put("/User/login", "anon");
         filterRuleMap.put("/User/register", "anon");
         filterRuleMap.put("/adminlogin", "anon");
@@ -202,7 +202,7 @@ public class ShiroConfig {
         return matcher;
     }
 
-//    @Bean
+//    @bean
 //    public EhCacheManager ehcacheManager(CacheManager cacheManager) {
 //        EhCacheManager manager=new EhCacheManager();
 ////        manager.setCacheManager(EhcacheUtil.getInstance().getManager());

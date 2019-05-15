@@ -1,6 +1,6 @@
 package cn.qxl.shiro.matcher;
 
-import cn.qxl.Utils.EhcacheUtil;
+import cn.qxl.utils.EhcacheUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

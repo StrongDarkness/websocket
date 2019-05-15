@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.qxl.Mapper.AdminUserMapper">
-  <resultMap id="BaseResultMap" type="cn.qxl.Bean.AdminUser">
+<mapper namespace="cn.qxl.mapper.AdminUserMapper">
+  <resultMap id="BaseResultMap" type="cn.qxl.bean.AdminUser">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="admin_name" jdbcType="VARCHAR" property="adminName" />
     <result column="admin_password" jdbcType="VARCHAR" property="adminPassword" />
@@ -29,7 +29,7 @@
     delete from t_admin_user
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.qxl.Bean.AdminUser" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.qxl.bean.AdminUser" useGeneratedKeys="true">
     insert into t_admin_user (admin_name, admin_password, role_id, 
       email, phone_num, login_flag, 
       create_user, update_user, create_time, 
@@ -39,7 +39,7 @@
       #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{isInUse,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.qxl.Bean.AdminUser" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.qxl.bean.AdminUser" useGeneratedKeys="true">
     insert into t_admin_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="adminName != null">
@@ -112,7 +112,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.qxl.Bean.AdminUser">
+  <update id="updateByPrimaryKeySelective" parameterType="cn.qxl.bean.AdminUser">
     update t_admin_user
     <set>
       <if test="adminName != null">
@@ -151,7 +151,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.qxl.Bean.AdminUser">
+  <update id="updateByPrimaryKey" parameterType="cn.qxl.bean.AdminUser">
     update t_admin_user
     set admin_name = #{adminName,jdbcType=VARCHAR},
       admin_password = #{adminPassword,jdbcType=VARCHAR},
@@ -166,7 +166,7 @@
       is_in_use = #{isInUse,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-    <select id="getAdminUser" parameterType="cn.qxl.Bean.AdminUser" resultMap="BaseResultMap">
+    <select id="getAdminUser" parameterType="cn.qxl.bean.AdminUser" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_admin_user
@@ -213,7 +213,7 @@
             </if>
         </where>
     </select>
-    <select id="getAdminUserByUserName" parameterType="cn.qxl.Bean.AdminUser" resultMap="BaseResultMap">
+    <select id="getAdminUserByUserName" parameterType="cn.qxl.bean.AdminUser" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_admin_user

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.qxl.Mapper.SysMenuMapper">
-  <resultMap id="BaseResultMap" type="cn.qxl.Bean.SysMenu">
+<mapper namespace="cn.qxl.mapper.SysMenuMapper">
+  <resultMap id="BaseResultMap" type="cn.qxl.bean.SysMenu">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="parnet_id" jdbcType="INTEGER" property="parnetId" />
     <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
@@ -28,7 +28,7 @@
     delete from t_sys_menu
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.qxl.Bean.SysMenu" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.qxl.bean.SysMenu" useGeneratedKeys="true">
     insert into t_sys_menu (parnet_id, menu_name, menu_icon, 
       menu_link, menu_sort, create_user, 
       update_user, create_time, update_time, 
@@ -38,7 +38,7 @@
       #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{isInUse,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.qxl.Bean.SysMenu" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.qxl.bean.SysMenu" useGeneratedKeys="true">
     insert into t_sys_menu
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="parnetId != null">
@@ -105,7 +105,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.qxl.Bean.SysMenu">
+  <update id="updateByPrimaryKeySelective" parameterType="cn.qxl.bean.SysMenu">
     update t_sys_menu
     <set>
       <if test="parnetId != null">
@@ -141,7 +141,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.qxl.Bean.SysMenu">
+  <update id="updateByPrimaryKey" parameterType="cn.qxl.bean.SysMenu">
     update t_sys_menu
     set parnet_id = #{parnetId,jdbcType=INTEGER},
       menu_name = #{menuName,jdbcType=VARCHAR},

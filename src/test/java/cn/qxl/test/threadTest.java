@@ -17,6 +17,7 @@ import java.util.concurrent.Semaphore;
 public class threadTest {
     // 请求总数
     public static int clientTotal = 5000;
+//    public static int clientTotal = 100;
 
     // 同时并发执行的线程数
     public static int threadTotal = 200;
@@ -41,10 +42,12 @@ public class threadTest {
                     //释放许可
                     semaphore.release();
                 Response response= client.newCall(new Request.Builder().url("http://192.168.101.110:8080/spike").get().build()).execute();
-
+//                Response response= client.newCall(new Request.Builder().url("http://192.168.101.110/test").get().build()).execute();
+//                Response response= client.newCall(new Request.Builder().url("http://192.168.101.59/financial/userWithdrawalRecord/pay?id=2312312").get().build()).execute();
+                System.out.println(response.body().string());
                 } catch (Exception e) {
                     //log.error("exception", e);
-                    e.printStackTrace();
+//                    e.printStackTrace();
                 }
                 //闭锁减一
                 countDownLatch.countDown();

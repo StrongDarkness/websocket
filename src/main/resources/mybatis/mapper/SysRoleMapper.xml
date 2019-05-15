@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.qxl.Mapper.SysRoleMapper">
-  <resultMap id="BaseResultMap" type="cn.qxl.Bean.SysRole">
+<mapper namespace="cn.qxl.mapper.SysRoleMapper">
+  <resultMap id="BaseResultMap" type="cn.qxl.bean.SysRole">
     <id column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
     <result column="role_desc" jdbcType="VARCHAR" property="roleDesc" />
@@ -26,7 +26,7 @@
     delete from t_sys_role
     where role_id = #{roleId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="role_id" keyProperty="roleId" parameterType="cn.qxl.Bean.SysRole" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="role_id" keyProperty="roleId" parameterType="cn.qxl.bean.SysRole" useGeneratedKeys="true">
     insert into t_sys_role (role_name, role_desc, create_user, 
       update_user, create_time, update_time, 
       is_in_use, permission_id)
@@ -34,7 +34,7 @@
       #{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{isInUse,jdbcType=CHAR}, #{permissionId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="role_id" keyProperty="roleId" parameterType="cn.qxl.Bean.SysRole" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="role_id" keyProperty="roleId" parameterType="cn.qxl.bean.SysRole" useGeneratedKeys="true">
     insert into t_sys_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="roleName != null">
@@ -89,7 +89,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.qxl.Bean.SysRole">
+  <update id="updateByPrimaryKeySelective" parameterType="cn.qxl.bean.SysRole">
     update t_sys_role
     <set>
       <if test="roleName != null">
@@ -119,7 +119,7 @@
     </set>
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.qxl.Bean.SysRole">
+  <update id="updateByPrimaryKey" parameterType="cn.qxl.bean.SysRole">
     update t_sys_role
     set role_name = #{roleName,jdbcType=VARCHAR},
       role_desc = #{roleDesc,jdbcType=VARCHAR},

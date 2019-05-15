@@ -152,7 +152,7 @@ aliyun:
 #logging:
 #  level:
     #定义需要打印SQL语句的包
-   # cn.qxl.Mapper: debug
+   # cn.qxl.mapper: debug
 
 
 

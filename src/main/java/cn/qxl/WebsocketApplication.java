@@ -21,9 +21,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @PropertySource("application.yml")
 public class WebsocketApplication {
 
-	public static void main(String[] args) {
-		ApplicationContext context=SpringApplication.run(WebsocketApplication.class, args);
-		MyWebSocket.setApplicationContext(context);
-	}
+    public static void main(String[] args) {
+        ApplicationContext context = SpringApplication.run(WebsocketApplication.class, args);
+        MyWebSocket.setApplicationContext(context);
+        System.out.println("服务启动成功！");
+    }
 
 }

@@ -5,25 +5,25 @@ spring:
       default:  #默认数据源
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver
-        url: jdbc:mysql://192.168.101.110:3306/ssm?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-        username: test
+        url: jdbc:mysql://localhost:3306/ssm?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+        username: root
         password: 123456
       first:  #数据源1
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver
-        url: jdbc:mysql://192.168.101.110:3306/ssm?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-        username: test
+        url: jdbc:mysql://localhost:3306/ssm?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+        username: root
         password: 123456
       second:  #数据源2
         type: com.alibaba.druid.pool.DruidDataSource
-        url: jdbc:mysql://192.168.101.110:3306/ssm?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-        username: test
+        url: jdbc:mysql://localhost:3306/ssm?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+        username: root
         password: 123456
         driverClassName: com.mysql.jdbc.Driver
       credit:  #数据源3
         type: com.alibaba.druid.pool.DruidDataSource
-        url: jdbc:mysql://192.168.101.110:3306/ssm?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-        username: test
+        url: jdbc:mysql://localhost:3306/ssm?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+        username: root
         password: 123456
         driverClassName: com.mysql.jdbc.Driver
       filter:

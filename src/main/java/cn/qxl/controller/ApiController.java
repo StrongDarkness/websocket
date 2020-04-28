@@ -1,5 +1,6 @@
 package cn.qxl.controller;
 
+import cn.qxl.bean.R;
 import cn.qxl.bean.UserInfo;
 import cn.qxl.chat.MyWebSocket;
 import cn.qxl.service.UserService;
@@ -33,14 +34,12 @@ public class ApiController {
 
     @PostMapping("/login")
     @ResponseBody
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) {
+    public R login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) {
         UserInfo user = userService.getUserByUserName(username);
         if (user.getPassword().equals(password)) {
-            Map<String, Object> result = new HashMap<>();
-            result.put("result", "login success");
-            String token = JwtUtil.sign(username, password,user.getUserId());
-            result.put("token", token);
-            return JSON.toJSONString(result);
+            String token = JwtUtil.sign(username, password, user.getUserId());
+            return R.ok().put("token", token).put("result", "login success")
+                    .put("username", user.getNickName()).put("userId", user.getUserId());
         } else {
             throw new UnauthorizedException();
         }
@@ -62,14 +61,14 @@ public class ApiController {
     @ResponseBody
     @GetMapping("/getUserOnline")
     public String getUserOnline() {
-        Map<String,String> umap=  MyWebSocket.getOnline();
+        Map<String, UserInfo> umap = MyWebSocket.getOnline();
         return JSON.toJSONString(umap);
     }
 
     @ResponseBody
     @GetMapping("/sendMsg")
     public String sendMsg(String msg) {
-        webSocket.sendToAll("系统管理员",msg);
+        webSocket.sendToAll("系统管理员", msg);
         return "发送成功";
     }
 

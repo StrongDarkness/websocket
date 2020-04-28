@@ -9,6 +9,7 @@
 
 <body>
 Welcome <span th:text="${nickname}" style="color:blue"></span> 登录！<br/>
+<input id="userId" type="text" th:value="${userId}" hidden/>
 <input id="username" type="text" th:value="${username}" hidden/><button onclick="connect()" hidden>connect</button><br/>
 To:<input id="to" placeholder="towho" type="text" /><br/>
 <input id="text" type="text" /><button onclick="send()">Send</button>    <button onclick="closeWebSocket()">Close</button>
@@ -25,8 +26,9 @@ To:<input id="to" placeholder="towho" type="text" /><br/>
     //判断当前浏览器是否支持WebSocket
     function  connect() {
         var username=$('#username').val();
+        var userId=$('#userId').val();
         if('WebSocket' in window){
-            websocket = new WebSocket(domain+username);
+            websocket = new WebSocket(domain+userId);
         }else{
             alert('Not support websocket')
         }

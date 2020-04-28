@@ -94,17 +94,18 @@ public class ViewController {
         Subject user = SecurityUtils.getSubject();
         try {
             UserInfo ui = userService.getUserByUserName(username);
-            if (ui==null){
-                model.addAttribute("msg","用户不存在");
+            if (ui == null) {
+                model.addAttribute("msg", "用户不存在");
                 return "login";
             }
             // AuthenticationToken token=new UsernamePasswordToken(username,password);
-            Token tk = new Token(JwtUtil.sign(username, password,ui.getUserId()));
+            Token tk = new Token(JwtUtil.sign(username, password, ui.getUserId()));
             user.login(tk);
-            model.addAttribute("username",username);
-            model.addAttribute("nickname",ui.getNickName());
+            model.addAttribute("nickname", ui.getNickName());
+            model.addAttribute("username", username);
+            model.addAttribute("userId", ui.getUserId());
             return "index";
-        }catch (UnknownAccountException e){
+        } catch (UnknownAccountException e) {
             LogUtils.getLogger(getClass()).info(e.getMessage());
             System.out.println(e.getMessage());
             model.addAttribute("msg", e.getMessage());
@@ -112,15 +113,15 @@ public class ViewController {
             System.out.println(e.getMessage());
             LogUtils.getLogger(getClass()).info(e.getMessage());
             model.addAttribute("msg", e.getMessage());
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
-            model.addAttribute("msg","未知异常："+e.getMessage());
+            model.addAttribute("msg", "未知异常：" + e.getMessage());
         }
         return "login";
     }
 
     @RequestMapping("/dologin")
-    public String dologin(){
+    public String dologin() {
         return "login";
     }
 
@@ -140,8 +141,9 @@ public class ViewController {
     public ModelAndView unauth(AuthenticationException e) {
         return new ModelAndView("401", "msg", "你无权访问" + e.getMessage());
     }
+
     @ExceptionHandler(Exception.class)
-    public String unauth(Exception e){
+    public String unauth(Exception e) {
         return JSON.toJSONString(e.getMessage());
     }
 
@@ -152,11 +154,12 @@ public class ViewController {
 //        System.out.println(msg);
         return R.error(401, msg);
     }
+
     @RequestMapping("/test")
     @ResponseBody
     public String test() throws Exception {
         //设置一个key，aaa商品的库存数量为100
-        stringRedisTemplate.opsForValue().set(commodityCount,"5");
+        stringRedisTemplate.opsForValue().set(commodityCount, "5");
 //        Assert.assertEquals("100", stringRedisTemplate.opsForValue().get("aaa"));
         return "success";
     }
@@ -164,33 +167,34 @@ public class ViewController {
 
     /**
      * 模拟秒杀抢购，并发200个请求过来，查看是否出现超卖
+     *
      * @return
      */
     @RequestMapping("/spike")
     @ResponseBody
-    public String spike() throws Exception{
+    public String spike() throws Exception {
         String flag = "success";
         RLock lock = redisson.getLock(lockKey);
-        try{
+        try {
             //lock.lockAsync(5 , TimeUnit.SECONDS);
             //lock.lock(5, TimeUnit.SECONDS); //设置60秒自动释放锁  （默认是30秒自动过期）
             Future<Boolean> res = lock.tryLockAsync(100, 5, TimeUnit.SECONDS);
             boolean result = res.get();
-            if(result){
+            if (result) {
                 int stock = Integer.parseInt(redisTemplate.opsForValue().get(commodityCount).toString());
-                System.out.println("stock-->"+stock);
-                if(stock > 0){
-                    redisTemplate.opsForValue().set(commodityCount,(stock-1)+"");
-                }else{
+                System.out.println("stock-->" + stock);
+                if (stock > 0) {
+                    redisTemplate.opsForValue().set(commodityCount, (stock - 1) + "");
+                } else {
                     flag = "fail";
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             lock.unlock(); //释放锁
         }
-        System.out.println(Thread.currentThread().getName()+"-result:" + flag);
+        System.out.println(Thread.currentThread().getName() + "-result:" + flag);
         return flag;
     }
 }

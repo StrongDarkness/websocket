@@ -65,6 +65,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserInfo getUserByUserId(String userId) {
+        return userInfoMapper.getUserByUserId(userId);
+    }
+
+    @Override
     @Transactional
     public boolean register(UserInfo info) throws Exception {
 

@@ -1,5 +1,6 @@
 package cn.qxl.bean;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -53,9 +54,11 @@ public class UserInfo {
     private String updateUser;
 
      /** 创建时间*/
+     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
      /** 更新时间*/
+     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
      /** 0:逻辑数据删除 1:逻辑数据存在*/

@@ -1,8 +1,11 @@
 package cn.qxl.chat;
 
+import cn.qxl.bean.UserInfo;
 import cn.qxl.bean.chatBean;
 import cn.qxl.config.WebSocketConfig;
+import cn.qxl.service.UserService;
 import com.alibaba.fastjson.JSON;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
@@ -22,17 +25,18 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * websocket消息处理
  * Created by qiu on 2018/10/13.
  */
-@ServerEndpoint(value = "/websocket/{username}", configurator = WebSocketConfig.class)
+@ServerEndpoint(value = "/websocket/{userId}", configurator = WebSocketConfig.class)
 @Component
 @EnableWebSocket
 public class MyWebSocket {
+    private static ApplicationContext applicationContext;
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static int onlineCount = 0;
 
     //connect key为session的ID，value为此对象this
     private static final Map<String, Object> connect = new HashMap<String, Object>();
     //userMap key为session的ID，value为用户名
-    private static final Map<String, String> userMap = new HashMap<String, String>();
+    private static final Map<String, UserInfo> userMap = new HashMap<String, UserInfo>();
     private static final Map<String, Session> sessionMap = new HashMap<String, Session>();
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
@@ -42,22 +46,34 @@ public class MyWebSocket {
     private static CopyOnWriteArraySet<MyWebSocket> webSocketSet = new CopyOnWriteArraySet<MyWebSocket>();
 
     //在线用户
-    public static Map<String, String> getOnline() {
+    public static Map<String, UserInfo> getOnline() {
         return userMap;
+    }
+
+    private static UserService userService;
+
+    public static void setApplicationContext(ApplicationContext context) {
+        MyWebSocket.applicationContext = context;
+        userService=applicationContext.getBean(UserService.class);
     }
 
     /**
      * 连接建立成功调用的方法
      */
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username) {
+    public void onOpen(Session session, @PathParam("userId") String userId) {
         this.session = session;
-        this.username = username;
+        UserInfo ui = userService.getUserByUserId(userId);
+        if (ui==null){
+            sendToAll("","用户不存在");
+            return;
+        }
+        this.username = ui.getNickName();
 //        String uname= (String) session.getUserProperties().get("username");
 //        System.out.println(uname);
         connect.put(session.getId(), this);
         sessionMap.put(username, session);
-        userMap.put(session.getId(), username);
+        userMap.put(session.getId(), ui);
         webSocketSet.add(this);     //加入set中
         addOnlineCount();           //在线数加1
         System.out.println();
@@ -71,13 +87,13 @@ public class MyWebSocket {
      */
     @OnClose
     public void onClose(Session session) {
-        String user = userMap.get(session.getId());
+        UserInfo user = userMap.get(session.getId());
         connect.remove(session.getId());
         userMap.remove(session.getId());
         sessionMap.remove(user);
         webSocketSet.remove(this);  //从set中删除
         subOnlineCount();           //在线数减1
-        System.out.println("用户 " + user + " 断开了连接");
+        System.out.println("用户 " + user.getNickName() + " 断开了连接");
         System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
         sendToAll("系统管理员", "用户 " + username + " 断开连接");
     }
@@ -90,7 +106,7 @@ public class MyWebSocket {
     @OnMessage
     public void onMessage(String message, Session session) {
         System.out.println("来自客户端的消息:" + message);
-        this.username = userMap.get(session.getId());
+        this.username = userMap.get(session.getId()).getNickName();
         System.out.println("用户" + username + "上线,在线人数：" + connect.size());
         String[] msg = message.split("@", 2);//以@为分隔符把字符串分为xxx和xxxxx两部分,msg[0]表示发送至的用户名，all则表示发给所有人
         if (msg[0].equals("all")) {
@@ -123,7 +139,7 @@ public class MyWebSocket {
         //群发消息
         for (String key : connect.keySet()) {
             MyWebSocket client = (MyWebSocket) connect.get(key);
-            if (key.equalsIgnoreCase(userMap.get(key))) {
+            if (key.equalsIgnoreCase(userMap.get(key).getNickName())) {
                 bean.setUsername("自己");
                 bean.setSelf(true);
             } else {

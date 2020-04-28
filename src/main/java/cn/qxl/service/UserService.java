@@ -27,5 +27,7 @@ public interface UserService {
     //根据user_id查询用户
     UserInfo getUserById(String userId);
 
+    UserInfo getUserByUserId(String userId);
+
     boolean register(UserInfo info) throws Exception;
 }

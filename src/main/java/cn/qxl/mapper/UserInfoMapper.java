@@ -24,4 +24,6 @@ public interface UserInfoMapper {
     UserInfo getUserByUserName(String username);
 
     UserInfo getUserById(String userId);
+
+    UserInfo getUserByUserId(String userId);
 }
